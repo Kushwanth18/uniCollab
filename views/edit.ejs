@@ -1,0 +1,48 @@
+<% layout("boilerplate.ejs") %>
+
+<div class="row">
+  <h1 class="text-center">Edit Project</h1>
+  <div class="col-6 offset-3">
+    <form action="/collab/<%= collab._id %>?_method=PUT" method="POST">
+      <div class="mb-3">
+        <label for="title" class="form-label">Title</label>
+        <input
+          type="text"
+          class="form-control"
+          name="collab[title]"
+          id="title"
+          value="<%= collab.title %>"
+          required
+        />
+      </div>
+      <div class="mb-3">
+        <label for="image" class="form-label">Image URL</label>
+        <input
+          type="text"
+          class="form-control"
+          id="image"
+          name="collab[image]"
+          value="<%= collab.image %>"
+          required
+        />
+      </div>
+      <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea
+          type="text"
+          class="form-control"
+          id="description"
+          name="collab[description]"
+          required
+        >
+        <%= collab.description %>
+        </textarea>
+      </div>
+      <div class="mb-3">
+        <button class="btn btn-success">Edit Project</button>
+      </div>
+    </form>
+    <a href="/collab/<%= collab._id %>">Go Back</a> &nbsp;
+    <a href="/collab">All Projects</a>
+  </div>
+</div>

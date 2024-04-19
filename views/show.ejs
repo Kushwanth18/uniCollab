@@ -1,0 +1,29 @@
+<% layout("boilerplate.ejs") %>
+<div class="row mb-3">
+  <div class="col-6 offset-3">
+    <div class="card">
+      <img src="<%= collab.image %>" class="card-img-top" alt="..." />
+      <div class="card-body">
+        <h5 class="card-title"><%= collab.title %></h5>
+        <p class="card-text"><%= collab.description %></p>
+      </div>
+      <!--       <ul class="list-group list-group-flush">
+        <li class="list-group-item"><%= collab.location %></li>
+        <li class="list-group-item">$ <%= collab.price %>/night</li>
+      </ul> -->
+      <div class="card-body">
+        <a href="/collab/<%= collab.id %>/edit" class="card-link"
+          ><button class="btn btn-info">Edit</button></a
+        >
+        <form
+          action="/collab/<%= collab._id %>?_method=DELETE"
+          method="post"
+          class="d-inline"
+        >
+          <button class="btn btn-danger">Delete</button>
+        </form>
+      </div>
+    </div>
+    <br />
+  </div>
+</div>
