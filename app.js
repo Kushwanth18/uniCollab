@@ -57,6 +57,12 @@ app.get("/collab/:id", async (req, res) => {
   res.render("show", { collab });
 });
 
+app.post("/collab", async (req, res) => {
+  const collab = new Collab(req.body.collab);
+  await collab.save();
+  res.redirect(`/collab/${collab._id}`);
+});
+
 app.listen(3000, () => {
   console.log("Listening on port 3000");
 });
