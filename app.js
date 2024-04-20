@@ -47,30 +47,14 @@ app.get("/collab", async (req, res) => {
   }
 });
 
+app.get("/collab/new", (req, res) => {
+  res.render("new");
+});
+
 app.get("/collab/:id", async (req, res) => {
-  const { id } = req.params;
-  const collab = await Collab.findById(id);
+  console.log(req.params);
+  const collab = await Collab.findById(req.params.id);
   res.render("show", { collab });
-});
-
-app.get("/collab/:id/edit", async (req, res) => {
-  const { id } = req.params;
-  const collab = await Collab.findById(id);
-  res.render("edit", { collab });
-});
-
-app.put("/collab/:id", async (req, res) => {
-  const { id } = req.params;
-  const collab = await Collab.findByIdAndUpdate(id, {
-    ...req.body.collab,
-  });
-  res.redirect(`/collab/${collab._id}`);
-});
-
-app.delete("/collab/:id", async (req, res) => {
-  const { id } = req.params;
-  await Collab.findByIdAndDelete(id);
-  res.redirect("/collab");
 });
 
 app.listen(3000, () => {
