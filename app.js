@@ -15,11 +15,11 @@ db.on("open", () => {
 });
 
 const app = express();
+app.use(methodOverride("_method"));
 app.use(express.static(__dirname + "/public"));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.engine("ejs", ejsMate);
-app.use(methodOverride("_method"));
 
 //parsing the URL Body
 app.use(
@@ -52,7 +52,6 @@ app.get("/collab/new", (req, res) => {
 });
 
 app.get("/collab/:id", async (req, res) => {
-  console.log(req.params);
   const collab = await Collab.findById(req.params.id);
   res.render("show", { collab });
 });
@@ -61,6 +60,12 @@ app.post("/collab", async (req, res) => {
   const collab = new Collab(req.body.collab);
   await collab.save();
   res.redirect(`/collab/${collab._id}`);
+});
+
+app.delete("/collab/:id", async (req, res) => {
+  const { id } = req.params.id;
+  await Collab.findByIdAndDelete(id);
+  res.render("/collab");
 });
 
 app.listen(3000, () => {
