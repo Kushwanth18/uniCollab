@@ -5,6 +5,19 @@ const morgan = require("morgan");
 const ejsMate = require("ejs-mate");
 const path = require("path");
 const Collab = require("./models/unicollab"); //importing the DB Schema
+//importing Utils
+const ExpressError = require("./utils/ExpressError");
+const catchAsync = require("./utils/catchAsync");
+//required for authentication
+const session = require("express-session");
+const flash = require("connect-flash");
+const User = require("./models/user");
+const passport = require("passport");
+const LocalStrategy = require("passport-local");
+
+//Routes
+const userRoutes = require("./routes/users");
+const collabRoutes = require("./routes/collab");
 
 //Connecting to our DataBase
 mongoose.connect("mongodb://localhost:27017/uni-collab");
@@ -27,60 +40,48 @@ app.use(
     extended: true,
   })
 );
-app.use(morgan("tiny"));
 
-app.get("/", (req, res) => {
-  res.render("Home");
+const sessionConfig = {
+  secret: "thisshouldbeabettersecret",
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    httpOnly: true,
+    expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+    maxAge: 1000 * 60 * 60 * 24 * 7,
+  },
+};
+//cokkies, session and auth related config
+app.use(session(sessionConfig));
+app.use(flash());
+
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+//access flash in our template
+app.use((req, res, next) => {
+  res.locals.currentUser = req.user;
+  res.locals.success = req.flash("success");
+  res.locals.error = req.flash("error");
+  next();
 });
 
-app.get("/aboutus", (req, res) => {
-  res.render("aboutus");
-});
+//Website Routes
+app.use("/", collabRoutes);
+app.use("/", userRoutes);
 
-app.get("/collab", async (req, res) => {
-  const collabs = await Collab.find({});
-  console.log(collabs);
-  if (collabs.length === 0) {
-    res.render("noCollabs");
-  } else {
-    res.render("collab", { collabs });
-  }
+//A bit of Error Handling
+app.all("*", (req, res, next) => {
+  next(new ExpressError("Page Not Found", 404));
 });
-
-app.get("/collab/new", (req, res) => {
-  res.render("new");
-});
-
-app.get("/collab/:id", async (req, res) => {
-  const { id } = req.params;
-  const collab = await Collab.findById(id);
-  res.render("show", { collab });
-});
-
-app.post("/collab", async (req, res) => {
-  const collab = new Collab(req.body.collab);
-  await collab.save();
-  res.redirect(`/collab/${collab._id}`);
-});
-
-app.get("/collab/:id/edit", async (req, res) => {
-  const { id } = req.params;
-  const collab = await Collab.findById(id);
-  res.render("edit", { collab });
-});
-
-app.put("/collab/:id", async (req, res) => {
-  const { id } = req.params;
-  const collab = await Collab.findByIdAndUpdate(id, {
-    ...req.body.collab,
-  });
-  res.redirect(`/collab/${collab._id}`);
-});
-
-app.delete("/collab/:id", async (req, res) => {
-  const { id } = req.params;
-  await Collab.findByIdAndDelete(id);
-  res.redirect("/collab");
+app.use((err, req, res, next) => {
+  const { statusCode = 500 } = err;
+  if (!err.message) err.message = "OH NO!!Something went wrong";
+  res.status(statusCode).render("error", { err });
 });
 
 app.listen(3000, () => {
