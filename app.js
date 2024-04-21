@@ -47,10 +47,20 @@ app.get("/collab", async (req, res) => {
   }
 });
 
+app.get("/collab/new", (req, res) => {
+  res.render("new");
+});
+
 app.get("/collab/:id", async (req, res) => {
   const { id } = req.params;
   const collab = await Collab.findById(id);
   res.render("show", { collab });
+});
+
+app.post("/collab", async (req, res) => {
+  const collab = new Collab(req.body.collab);
+  await collab.save();
+  res.redirect(`/collab/${collab._id}`);
 });
 
 app.get("/collab/:id/edit", async (req, res) => {
