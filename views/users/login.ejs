@@ -1,31 +1,38 @@
 <% layout('boilerplate.ejs') %>
 <div class="row my-5">
-  <div class="col-6 offset-3">
-    <h1 class="mb-5">Login</h1>
-    <form action="/login" method="POST" class="validated-form" novalidate>
-      <div class="mb-3">
-        <label for="username" class="form-label">Username</label>
-        <input
-          type="text"
-          class="form-control"
-          id="username"
-          name="username"
-          required
-        />
-        <div class="valid-feedback">Looks Good!</div>
+  <div class="col-md-4 col-6 offset-4">
+    <div class="card login-bg">
+      <h1 class="mb-5 text-center mt-3">Login</h1>
+      <div class="card-body">
+        <form action="/login" method="POST" class="validated-form" novalidate>
+          <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input
+              type="text"
+              class="form-control"
+              id="username"
+              name="username"
+              required
+            />
+            <div class="valid-feedback">Looks Good!</div>
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input
+              type="password"
+              class="form-control"
+              id="password"
+              name="password"
+              required
+            />
+            <div class="valid-feedback">Looks Good!</div>
+          </div>
+          <button class="btn btn-success">Login</button>
+        </form>
+        <a href="/register">
+          <button class="mb-3 mt-3 btn btn-primary">Register</button>
+        </a>
       </div>
-      <div class="mb-3">
-        <label for="password" class="form-label">Password</label>
-        <input
-          type="password"
-          class="form-control"
-          id="password"
-          name="password"
-          required
-        />
-        <div class="valid-feedback">Looks Good!</div>
-      </div>
-      <button class="btn btn-success">Login</button>
-    </form>
+    </div>
   </div>
 </div>

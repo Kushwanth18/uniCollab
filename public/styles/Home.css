@@ -63,3 +63,7 @@ li.nav-item {
 .roboMascot {
   max-width: 50vh;
 }
+
+.login-bg {
+  background-color: #badfbf;
+}
