@@ -6,11 +6,15 @@
       <div class="card-body">
         <h5 class="card-title"><%= collab.title %></h5>
         <p class="card-text"><%= collab.description %></p>
+        <p class="card-text text-muted">
+          Posted By: <%= collab.author.username %>
+        </p>
       </div>
       <!--       <ul class="list-group list-group-flush">
         <li class="list-group-item"><%= collab.location %></li>
         <li class="list-group-item">$ <%= collab.price %>/night</li>
       </ul> -->
+      <% if(currentUser && collab.author.equals(currentUser._id)){ %>
       <div class="card-body">
         <a href="/collab/<%= collab.id %>/edit" class="card-link"
           ><button class="btn btn-info">Edit</button></a
@@ -23,6 +27,7 @@
           <button class="btn btn-danger">Delete</button>
         </form>
       </div>
+      <% } %>
     </div>
     <br />
   </div>

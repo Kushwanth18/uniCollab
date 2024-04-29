@@ -8,6 +8,10 @@ const CollabSchema = new Schema({
   title: String,
   skills: String,
   description: String,
+  author: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+  },
 });
 
 module.exports = mongoose.model("Collab", CollabSchema);
