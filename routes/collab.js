@@ -118,7 +118,7 @@ router.delete(
     const { id } = req.params;
     const collab = await Collab.findById(id);
     if (!collab.author.equals(req.user._id)) {
-      req.flash("error", "YOu do not have permission to do that!");
+      req.flash("error", "You do not have permission to do that!");
       return res.redirect(`/collab/${id}`);
     }
     await Collab.findByIdAndDelete(id);
