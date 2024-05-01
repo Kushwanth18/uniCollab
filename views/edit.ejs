@@ -3,7 +3,11 @@
 <div class="row">
   <h1 class="text-center">Edit Project</h1>
   <div class="col-6 offset-3">
-    <form action="/collab/<%= collab._id %>?_method=PUT" method="POST">
+    <form
+      action="/collab/<%= collab._id %>?_method=PUT"
+      method="POST"
+      enctype="multipart/form-data"
+    >
       <div class="mb-3">
         <label for="title" class="form-label">Title</label>
         <input
@@ -15,7 +19,7 @@
           required
         />
       </div>
-      <div class="mb-3">
+      <!--       <div class="mb-3">
         <label for="image" class="form-label">Image URL</label>
         <input
           type="text"
@@ -25,7 +29,7 @@
           value="<%= collab.image %>"
           required
         />
-      </div>
+      </div> -->
       <div class="mb-3">
         <label for="description" class="form-label">Description</label>
         <textarea
@@ -59,6 +63,33 @@
           value="<%= collab.number %>"
           required
         />
+      </div>
+      <div class="mb-3 custom-file">
+        <label for="formFileMultiple" class="form-label custom-file-label"
+          >Add Image(s)</label
+        >
+        <input
+          class="form-control"
+          type="file"
+          id="image"
+          name="image"
+          multiple
+        />
+      </div>
+      <div class="mb-3">
+        <% collab.images.forEach(function(img, i) { %>
+
+        <img src="<%=img.url %>" class="img-thumbnail" alt="" />
+        <div class="form-check-inline">
+          <input
+            type="checkbox"
+            id="image-<%=i%>"
+            name="deleteImages[]"
+            value="<%=img.filename%>"
+          />
+        </div>
+        <label for="image-<%=i%>">Delete?</label>
+        <% })%>
       </div>
       <div class="mb-3">
         <button class="btn btn-success">Edit Project</button>

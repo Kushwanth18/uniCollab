@@ -3,7 +3,13 @@
 <div class="row">
   <h1 class="text-center">New Project</h1>
   <div class="col-6 offset-3">
-    <form action="/collab" method="POST" novalidate class="validated-form">
+    <form
+      action="/collab"
+      method="POST"
+      novalidate
+      class="validated-form"
+      enctype="multipart/form-data"
+    >
       <div class="mb-3">
         <label for="title" class="form-label">Title</label>
         <input
@@ -26,7 +32,7 @@
         />
         <div class="valid-feedback">Looks Good!</div>
       </div>
-      <div class="mb-3">
+      <!--       <div class="mb-3">
         <label for="image" class="form-label">Image URL</label>
         <input
           type="text"
@@ -36,7 +42,7 @@
           required
         />
         <div class="valid-feedback">Looks Good!</div>
-      </div>
+      </div> -->
       <div class="mb-3">
         <label for="description" class="form-label">Description</label>
         <textarea
@@ -70,6 +76,19 @@
           required
         />
         <div class="valid-feedback">Looks Good!</div>
+      </div>
+      <div class="mb-3 custom-file">
+        <label for="formFileMultiple" class="form-label custom-file-label"
+          >Add Image(s)</label
+        >
+        <input
+          class="form-control"
+          type="file"
+          id="image"
+          name="image"
+          multiple
+          required
+        />
       </div>
       <div class="mb-3">
         <button class="btn btn-success">Add Project</button>

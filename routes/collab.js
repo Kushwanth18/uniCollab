@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router({ mergeParams: true });
+const { cloudinary } = require("../cloudinary/index");
 
 const catchAsync = require("../utils/catchAsync");
 const ExpressError = require("../utils/ExpressError");
@@ -16,6 +17,10 @@ const validateCollab = (req, res, next) => {
     next();
   }
 };
+
+const multer = require("multer");
+const { storage } = require("../cloudinary");
+const upload = multer({ storage });
 
 router.get("/", (req, res) => {
   res.render("Home");
@@ -70,11 +75,18 @@ router.get(
 router.post(
   "/collab",
   isLoggedIn,
+  upload.array("image"),
   validateCollab,
   catchAsync(async (req, res, next) => {
     const collab = new Collab(req.body.collab);
+    console.log(req.files);
+    collab.images = req.files.map((f) => ({
+      url: f.path,
+      filename: f.filename,
+    }));
     collab.author = req.user._id;
     await collab.save();
+    console.log(collab);
     req.flash("success", "Successfully Created a new Collab");
     res.redirect(`/collab/${collab._id}`);
   })
@@ -98,6 +110,7 @@ router.get(
 router.put(
   "/collab/:id",
   isLoggedIn,
+  upload.array("image"),
   isAuthor,
   validateCollab,
   catchAsync(async (req, res) => {
@@ -105,6 +118,18 @@ router.put(
     const collab = await Collab.findByIdAndUpdate(id, {
       ...req.body.collab,
     });
+    const imgs = req.files.map((f) => ({ url: f.path, filename: f.filename }));
+    collab.images.push(...imgs);
+    await collab.save();
+    if (req.body.deleteImages) {
+      for (let filename of req.body.deleteImages) {
+        await cloudinary.uploader.destroy(filename);
+      }
+      await collab.updateOne({
+        $pull: { images: { filename: { $in: req.body.deleteImages } } },
+      });
+      console.log(collab);
+    }
     req.flash("success", "Successfully Updated Collab");
     res.redirect(`/collab/${collab._id}`);
   })
