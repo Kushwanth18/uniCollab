@@ -78,6 +78,7 @@ router.post(
   upload.array("image"),
   validateCollab,
   catchAsync(async (req, res, next) => {
+    res.send("HIT THE ROUTE");
     const collab = new Collab(req.body.collab);
     console.log(req.files);
     collab.images = req.files.map((f) => ({
