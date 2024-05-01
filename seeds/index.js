@@ -18,6 +18,8 @@ const seedDB = async () => {
     description:
       "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eum corrupti commodi odio reprehenderit officiis mollitia, amet obcaecati eligendi officia ullam debitis aperiam facere cumque deserunt, ex voluptatem? Maiores, culpa aut?",
     author: "6624a613eeaeb64842d24d72",
+    email: "chkush18@gmail.com",
+    number: 6281061086,
   });
   await project.save();
 };

@@ -12,6 +12,8 @@ const CollabSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "User",
   },
+  email: String,
+  number: Number,
 });
 
 module.exports = mongoose.model("Collab", CollabSchema);

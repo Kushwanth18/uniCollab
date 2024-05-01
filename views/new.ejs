@@ -49,6 +49,29 @@
         <div class="valid-feedback">Looks Good!</div>
       </div>
       <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input
+          type="email"
+          class="form-control"
+          id="email"
+          name="collab[email]"
+          required
+        />
+        <div class="valid-feedback">Looks Good!</div>
+      </div>
+      <div class="mb-3">
+        <label for="mobile" class="form-label">Mobile Number</label>
+        <input
+          type="text"
+          class="form-control"
+          pattern="[6-9]{1}[0-9]{9}"
+          id="mobile"
+          name="collab[number]"
+          required
+        />
+        <div class="valid-feedback">Looks Good!</div>
+      </div>
+      <div class="mb-3">
         <button class="btn btn-success">Add Project</button>
       </div>
     </form>

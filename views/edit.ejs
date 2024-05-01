@@ -39,6 +39,28 @@
         </textarea>
       </div>
       <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input
+          type="email"
+          class="form-control"
+          id="email"
+          name="collab[email]"
+          value="<%= collab.email %>"
+          required
+        />
+      </div>
+      <div class="mb-3">
+        <label for="number" class="form-label">Phone Number</label>
+        <input
+          type="number"
+          class="form-control"
+          id="number"
+          name="collab[number]"
+          value="<%= collab.number %>"
+          required
+        />
+      </div>
+      <div class="mb-3">
         <button class="btn btn-success">Edit Project</button>
       </div>
     </form>
