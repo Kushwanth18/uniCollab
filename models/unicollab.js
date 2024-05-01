@@ -14,6 +14,12 @@ const CollabSchema = new Schema({
   },
   email: String,
   number: Number,
+  images: [
+    {
+      url: String,
+      filename: String,
+    },
+  ],
 });
 
 module.exports = mongoose.model("Collab", CollabSchema);
