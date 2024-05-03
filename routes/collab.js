@@ -8,7 +8,7 @@ const Collab = require("../models/unicollab"); //importing the DB Schema
 const collabSchema = require("../schemas");
 const { isLoggedIn, isAuthor } = require("../middleware");
 
-const validateCollab = (req, res, next) => {
+validateCollab = (req, res, next) => {
   const { err } = collabSchema.validate(req.body);
   if (err) {
     const msg = err.details.map((el) => el.message).join(",");
@@ -55,6 +55,9 @@ router.get(
     console.log(user);
     const collabs = await Collab.find({ author: req.user._id });
     console.log(collabs);
+    if (collabs.length === 0) {
+      return res.render("noCurrentCollabs");
+    }
     res.render("collab", { collabs });
   })
 );
@@ -78,7 +81,6 @@ router.post(
   upload.array("image"),
   validateCollab,
   catchAsync(async (req, res, next) => {
-    res.send("HIT THE ROUTE");
     const collab = new Collab(req.body.collab);
     console.log(req.files);
     collab.images = req.files.map((f) => ({

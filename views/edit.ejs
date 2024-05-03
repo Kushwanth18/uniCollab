@@ -19,6 +19,17 @@
           required
         />
       </div>
+      <div class="mb-3">
+        <label for="title" class="form-label">Skills</label>
+        <input
+          type="text"
+          class="form-control"
+          name="collab[skills]"
+          id="skills"
+          value="<%= collab.skills %>"
+          required
+        />
+      </div>
       <!--       <div class="mb-3">
         <label for="image" class="form-label">Image URL</label>
         <input
@@ -39,7 +50,7 @@
           name="collab[description]"
           required
         >
-        <%= collab.description %>
+<%= collab.description %>
         </textarea>
       </div>
       <div class="mb-3">
@@ -92,10 +103,11 @@
         <% })%>
       </div>
       <div class="mb-3">
-        <button class="btn btn-success">Edit Project</button>
+        <button class="btn btn-success">Submit</button>
       </div>
     </form>
-    <a href="/collab/<%= collab._id %>">Go Back</a> &nbsp;
+    <a href="/collab/<%= collab._id %>">Go Back</a>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <a href="/collab">All Projects</a>
   </div>
 </div>
